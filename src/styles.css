@@ -1,0 +1,36 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.ui.cards > .card {
+  width: 48%;
+  margin: 1%;
+}
+.ui.cards {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 5px 0px;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.todo_title {
+  border-bottom: 1px solid #eee;
+  font-size: 18px;
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 3px;
+  margin-bottom: 10px;
+}
+
+.task_add_form input {
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+#task_title {
+  padding-bottom: 8px;
+  font-size: 16px;
+}
