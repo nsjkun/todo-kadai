@@ -2,9 +2,16 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+body.swal2-height-auto {
+  padding-right: 0 !important;
+}
+
 .ui.cards > .card {
-  width: 48%;
-  margin: 1%;
+  width: 47%;
+  margin: 1.5%;
+  border: 0px solid #000;
+  filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.1));
+  box-shadow: none;
 }
 .ui.cards {
   display: -webkit-box;
@@ -25,12 +32,84 @@
   margin-bottom: 10px;
 }
 
-.task_add_form input {
-  border: 1px solid #eee;
+#input {
+  border: 1px solid #ccc;
   margin-bottom: 10px;
 }
 
 #task_title {
   padding-bottom: 8px;
   font-size: 16px;
+}
+
+#uuid {
+  font-size: 10px;
+  margin-top: 10px;
+  color: #ddd;
+}
+
+#setumei {
+  padding-bottom: 15px;
+  white-space: pre-wrap;
+}
+
+#setumei_area {
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+}
+
+.ui.card > .content,
+.ui.cards > .card > .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#tuika_button {
+  filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.2));
+}
+
+footer {
+  margin-top: 6em;
+}
+
+#edit_button {
+  font-weight: normal;
+}
+
+#rainbow_bar {
+  border-radius: 0px 0px 4px 4px;
+  margin: -1px;
+}
+
+.rainbow {
+  animation: rainbow 5s infinite;
+  -webkit-animation: rainbow 5s infinite;
+}
+
+@keyframes rainbow {
+  12% {
+    background: linear-gradient(from-green-300 via-blue-500 to-purple-600);
+  }
+  24% {
+    background: #ffcf53;
+  }
+  36% {
+    background: #e8ff53;
+  }
+  48% {
+    background: #53ff5d;
+  }
+  60% {
+    background: #53ffbc;
+  }
+  72% {
+    background: #5393ff;
+  }
+  84% {
+    background: #ca53ff;
+  }
+  100% {
+    background: #ff53bd;
+  }
 }
