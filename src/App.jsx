@@ -122,7 +122,7 @@ const App = () => {
           title: '任務完了',
           text: '偉い！次の任務をこなそう！',
           icon: 'success',
-          timer: '2000',
+          timer: '1500',
           confirmButtonText: '閉じる',
         })
         const removeItem = [...starttodos]
