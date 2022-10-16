@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
+import StartTodo from './components/StartTodo'
+import NinmuList from './components/NinmuList'
+import AddForm from './components/AddForm'
+import EditForm from './components/EditForm'
 
 const App = () => {
   // データ
@@ -30,7 +34,6 @@ const App = () => {
   // useState
   const [todos, setTodos] = useState(initialState)
   const [starttodos, setStartTodos] = useState(initialState)
-  const [filter, setFilter] = useState('ALL')
 
   // ローカルストレージ
   // const [todos, setTodos] = useState(() => {
@@ -94,7 +97,15 @@ const App = () => {
       }) //文字列が入っていない場合アラート
 
     // タスク内容とuuidをセット
-    setTodos((todos) => [...todos, { task, setumei, uuid: uuidv4() }])
+    setTodos((todos) => [
+      ...todos,
+      {
+        task,
+        setumei,
+        uuid: uuidv4(),
+        data: moment().format('YYYY年MM月DD日 HH:mm'),
+      },
+    ])
     // 追加後フォームの文字をリセット
     setTask('')
     setSetumei('')
@@ -200,164 +211,35 @@ const App = () => {
     <>
       {/* 編集フォーム */}
       {isEditing ? (
-        <>
-          <div className="todo_title">任務編集</div>
-          <form onSubmit={handleEditFormSubmit}>
-            <input
-              name="editTodo"
-              type="text"
-              id="input"
-              placeholder="Edit todo"
-              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-              value={currentTodo.task}
-              onChange={handleEditInputChange}
-            />
-            <textarea
-              id="setumei_area"
-              className="w-full rounded-lg border-gray-200 p-3 text-sm"
-              value={currentTodo.setumei}
-              rows="5"
-              placeholder="説明があれば入力してください"
-              onChange={handleEditSetumeiChange}
-            />
-            <button id="edit_button" className="ui teal button" type="submit">
-              更新する
-            </button>
-            <button
-              id="edit_button"
-              className="ui grey button"
-              // onClick={() => setIsEditing(false)}
-            >
-              キャンセル
-            </button>
-          </form>
-        </>
+        <EditForm
+          currentTodo={currentTodo}
+          handleEditFormSubmit={handleEditFormSubmit}
+          handleEditInputChange={handleEditInputChange}
+          handleEditSetumeiChange={handleEditSetumeiChange}
+        />
       ) : (
-        <>
-          <div className="todo_title">任務追加</div>
-          <form className="task_add_form" onSubmit={todoSubmit}>
-            <input
-              id="input"
-              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-              value={task}
-              placeholder="任務を入力して下さい"
-              onChange={todoNewTask}
-            />
-            <textarea
-              id="setumei_area"
-              className="w-full rounded-lg border-gray-200 p-3 text-sm"
-              value={setumei}
-              rows="5"
-              placeholder="説明があれば入力してください"
-              onChange={todoNewSetumei}
-            />
-            <button
-              id="tuika_button"
-              className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
-              type="submit"
-            >
-              追加する
-            </button>
-          </form>
-        </>
+        <AddForm
+          task={task}
+          setumei={setumei}
+          isEditing={isEditing}
+          todoSubmit={todoSubmit}
+          todoNewTask={todoNewTask}
+          todoNewSetumei={todoNewSetumei}
+        />
       )}
+
       {/* 編集フォームend */}
 
       {/* 遂行中 */}
-      <div className="todo_title">遂行中</div>
-
-      <ul className="ui cards">
-        {starttodos.map((todo, index) => (
-          <div id={todo.uuid} className="card" key={index}>
-            <li id="todo_card" className="content">
-              <span
-                id="rainbow_bar"
-                className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
-              ></span>
-              <div className="card_top_area">
-                <div id="todo_data" className=" text-gray-400">
-                  <i className="fa-regular fa-clock"></i>
-                  {todo.data}
-                </div>
-                <div id="task_title" className="font-bold text-gray-900">
-                  {todo.task}
-                </div>
-                <div id="setumei" className=" text-gray-500">
-                  {todo.setumei}
-                </div>
-              </div>
-
-              <div className="card_bottom_area">
-                <div className="ui two buttons">
-                  <button
-                    className="ui teal basic button"
-                    onClick={() => todoDeleteBtton(index)}
-                  >
-                    任務完了
-                  </button>
-                </div>
-                <div id="uuid" className="text-xs text-gray-500">
-                  CardID：{todo.uuid}
-                </div>
-              </div>
-            </li>
-          </div>
-        ))}
-      </ul>
-      {/* 進行中パーツ end*/}
+      <StartTodo starttodos={starttodos} todoDeleteBtton={todoDeleteBtton} />
 
       {/* 任務一覧パーツ */}
-      <div className="todo_title">任務一覧</div>
-      <ul className="ui cards">
-        {todos.map((todo, index) => (
-          <div id={todo.uuid} className="card" key={index}>
-            <li id="todo_card" className="content">
-              <div className="card_top_area">
-                <div id="todo_data" className=" text-gray-400">
-                  <i className="fa-regular fa-clock"></i>
-                  {todo.data}
-                </div>
-                <div
-                  id="task_title"
-                  className="text-xl font-bold text-gray-900"
-                >
-                  {todo.task}
-                </div>
-                <div id="setumei" className="text-xs text-gray-500">
-                  {todo.setumei}
-                </div>
-              </div>
-
-              <div className="card_bottom_area">
-                <div className="ui three buttons">
-                  <button
-                    className="ui teal basic button"
-                    onClick={() => todoStartBtton(index)}
-                  >
-                    開始
-                  </button>
-                  <button
-                    className="ui teal basic button"
-                    onClick={() => handleEditClick(todo)}
-                  >
-                    編集
-                  </button>
-                  <button
-                    className="ui teal basic button"
-                    onClick={() => onClickDelete(todo.uuid)}
-                  >
-                    削除
-                  </button>
-                </div>
-                <div id="uuid" className="text-xs text-gray-500">
-                  CardID：{todo.uuid}
-                </div>
-              </div>
-            </li>
-          </div>
-        ))}
-      </ul>
-      {/* 任務一覧パーツ end*/}
+      <NinmuList
+        todos={todos}
+        todoStartBtton={todoStartBtton}
+        handleEditClick={handleEditClick}
+        onClickDelete={onClickDelete}
+      />
     </>
   )
 }
