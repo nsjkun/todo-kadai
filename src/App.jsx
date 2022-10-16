@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import moment from 'moment'
 
 const App = () => {
   // データ
   const initialState = [
     {
+      data: moment().format('YYYY年MM月DD日 HH:mm'),
       task: 'ご飯食べる',
       setumei:
         'テキストテキストテキストテキストテキストテキストテキストテキスト',
       uuid: uuidv4(),
     },
     {
+      data: moment().format('YYYY年MM月DD日 HH:mm'),
       task: 'お風呂入る',
       setumei:
         'テキストテキストテキストテキストテキストテキストテキストテキスト',
       uuid: uuidv4(),
     },
     {
+      data: moment().format('YYYY年MM月DD日 HH:mm'),
       task: '洗濯する',
       setumei:
         'テキストテキストテキストテキストテキストテキストテキストテキスト',
@@ -26,6 +30,7 @@ const App = () => {
   // useState
   const [todos, setTodos] = useState(initialState)
   const [starttodos, setStartTodos] = useState(initialState)
+  const [filter, setFilter] = useState('ALL')
 
   // ローカルストレージ
   // const [todos, setTodos] = useState(() => {
@@ -182,6 +187,7 @@ const App = () => {
   const handleEditClick = (todo) => {
     setIsEditing(true)
     setCurrentTodo({ ...todo })
+    window.scroll({ top: 0, behavior: 'smooth' })
   }
 
   const handleEditFormSubmit = (e) => {
@@ -269,13 +275,14 @@ const App = () => {
                 className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
               ></span>
               <div className="card_top_area">
-                <div
-                  id="task_title"
-                  className="task_title text-xl font-bold text-gray-900"
-                >
+                <div id="todo_data" className=" text-gray-400">
+                  <i className="fa-regular fa-clock"></i>
+                  {todo.data}
+                </div>
+                <div id="task_title" className="font-bold text-gray-900">
                   {todo.task}
                 </div>
-                <div id="setumei" className="text-xs text-gray-500">
+                <div id="setumei" className=" text-gray-500">
                   {todo.setumei}
                 </div>
               </div>
@@ -306,6 +313,10 @@ const App = () => {
           <div id={todo.uuid} className="card" key={index}>
             <li id="todo_card" className="content">
               <div className="card_top_area">
+                <div id="todo_data" className=" text-gray-400">
+                  <i className="fa-regular fa-clock"></i>
+                  {todo.data}
+                </div>
                 <div
                   id="task_title"
                   className="text-xl font-bold text-gray-900"

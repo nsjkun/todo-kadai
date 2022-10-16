@@ -73,6 +73,16 @@ footer {
   margin-top: 6em;
 }
 
+#todo_data {
+  font-size: 10px;
+  margin-bottom: 8px;
+}
+
+#todo_data i {
+  content: '\f017';
+  margin-right: 3px;
+}
+
 #edit_button {
   font-weight: normal;
 }
