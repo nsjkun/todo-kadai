@@ -3,6 +3,7 @@ import React from 'react'
 const EditForm = (props) => {
   const {
     currentTodo,
+    cancelClick,
     handleEditFormSubmit,
     handleEditInputChange,
     handleEditSetumeiChange,
@@ -33,9 +34,9 @@ const EditForm = (props) => {
           更新する
         </button>
         <button
+          onClick={cancelClick}
           id="edit_button"
           className="ui grey button"
-          // onClick={() => setIsEditing(false)}
         >
           キャンセル
         </button>

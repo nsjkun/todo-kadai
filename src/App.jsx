@@ -34,6 +34,8 @@ const App = () => {
   // useState
   const [todos, setTodos] = useState(initialState)
   const [starttodos, setStartTodos] = useState(initialState)
+  const [task, setTask] = useState('')
+  const [setumei, setSetumei] = useState('')
 
   // ローカルストレージ
   // const [todos, setTodos] = useState(() => {
@@ -70,11 +72,6 @@ const App = () => {
     localStorage.setItem('starttodos', JSON.stringify(starttodos))
   }, [starttodos])
 
-  // タスクタイトル useState
-  const [task, setTask] = useState('')
-  //タスク詳細 useState
-  const [setumei, setSetumei] = useState('')
-
   // タスクタイトル
   const todoNewTask = (event) => {
     setTask(event.target.value)
@@ -96,7 +93,7 @@ const App = () => {
         timer: '2000',
       }) //文字列が入っていない場合アラート
 
-    // タスク内容とuuidをセット
+    // タスクデータをセット
     setTodos((todos) => [
       ...todos,
       {
@@ -181,17 +178,22 @@ const App = () => {
   //フォームが送信された時の処理
   const handleUpdateTodo = (uuid, updatedTodo) => {
     const updatedItem = todos.map((todo) => {
+      Swal.fire({
+        title: '更新しました',
+        icon: 'success',
+        confirmButtonText: '閉じる',
+        timer: '1500',
+      })
       return todo.uuid === uuid ? updatedTodo : todo
     })
-    Swal.fire({
-      title: '更新しました',
-      icon: 'success',
-      confirmButtonText: '閉じる',
-      timer: '1500',
-    }) //文字列が入っていない場合アラート
 
     setIsEditing(false)
     setTodos(updatedItem)
+  }
+
+  const handleEditFormSubmit = (e) => {
+    e.preventDefault()
+    handleUpdateTodo(currentTodo.uuid, currentTodo)
   }
 
   // 編集ボタンクリックしたときの処理
@@ -201,10 +203,9 @@ const App = () => {
     window.scroll({ top: 0, behavior: 'smooth' })
   }
 
-  const handleEditFormSubmit = (e) => {
+  const cancelClick = (e) => {
     e.preventDefault()
-
-    handleUpdateTodo(currentTodo.uuid, currentTodo)
+    setIsEditing(false)
   }
 
   return (
@@ -213,6 +214,7 @@ const App = () => {
       {isEditing ? (
         <EditForm
           currentTodo={currentTodo}
+          cancelClick={cancelClick}
           handleEditFormSubmit={handleEditFormSubmit}
           handleEditInputChange={handleEditInputChange}
           handleEditSetumeiChange={handleEditSetumeiChange}
