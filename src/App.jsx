@@ -8,65 +8,65 @@ import EditForm from './components/EditForm'
 
 const App = () => {
   // データ
-  const initialState = [
-    {
-      data: moment().format('YYYY年MM月DD日 HH:mm'),
-      task: 'ご飯食べる',
-      setumei:
-        'テキストテキストテキストテキストテキストテキストテキストテキスト',
-      uuid: uuidv4(),
-    },
-    {
-      data: moment().format('YYYY年MM月DD日 HH:mm'),
-      task: 'お風呂入る',
-      setumei:
-        'テキストテキストテキストテキストテキストテキストテキストテキスト',
-      uuid: uuidv4(),
-    },
-    {
-      data: moment().format('YYYY年MM月DD日 HH:mm'),
-      task: '洗濯する',
-      setumei:
-        'テキストテキストテキストテキストテキストテキストテキストテキスト',
-      uuid: uuidv4(),
-    },
-  ]
+  // const initialState = [
+  //   {
+  //     data: moment().format('YYYY年MM月DD日 HH:mm'),
+  //     task: 'ご飯食べる',
+  //     setumei:
+  //       'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  //     uuid: uuidv4(),
+  //   },
+  //   {
+  //     data: moment().format('YYYY年MM月DD日 HH:mm'),
+  //     task: 'お風呂入る',
+  //     setumei:
+  //       'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  //     uuid: uuidv4(),
+  //   },
+  //   {
+  //     data: moment().format('YYYY年MM月DD日 HH:mm'),
+  //     task: '洗濯する',
+  //     setumei:
+  //       'テキストテキストテキストテキストテキストテキストテキストテキスト',
+  //     uuid: uuidv4(),
+  //   },
+  // ]
   // useState
-  const [todos, setTodos] = useState(initialState)
-  const [starttodos, setStartTodos] = useState(initialState)
+  // const [todos, setTodos] = useState()
+  // const [starttodos, setStartTodos] = useState()
   const [task, setTask] = useState('')
   const [setumei, setSetumei] = useState('')
 
   // ローカルストレージ
-  // const [todos, setTodos] = useState(() => {
-  //   // ローカルストレージの情報取得
-  //   const savedTodos = localStorage.getItem('todos')
-  //   // 保存されているTODOがある場合
-  //   if (savedTodos) {
-  //     // parseされたJSONオブジェクトをjavascriptオブジェクトに戻す
-  //     return JSON.parse(savedTodos)
-  //   } else {
-  //     // 保存されてない場合何もしない
-  //     return []
-  //   }
-  // })
+  const [todos, setTodos] = useState(() => {
+    // ローカルストレージの情報取得
+    const savedTodos = localStorage.getItem('todos')
+    // 保存されているTODOがある場合
+    if (savedTodos) {
+      // parseされたJSONオブジェクトをjavascriptオブジェクトに戻す
+      return JSON.parse(savedTodos)
+    } else {
+      // 保存されてない場合何もしない
+      return []
+    }
+  })
   // 任務一覧ローカルストレージに保存
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos))
   }, [todos])
 
-  // const [starttodos, setStartTodos] = useState(() => {
-  //   // ローカルストレージの情報取得
-  //   const savedTodos = localStorage.getItem('starttodos')
-  //   // 保存されているTODOがある場合
-  //   if (savedTodos) {
-  //     // parseされたJSONオブジェクトをjavascriptオブジェクトに戻す
-  //     return JSON.parse(savedTodos)
-  //   } else {
-  //     // 保存されてない場合何もしない
-  //     return []
-  //   }
-  // })
+  const [starttodos, setStartTodos] = useState(() => {
+    // ローカルストレージの情報取得
+    const savedTodos = localStorage.getItem('starttodos')
+    // 保存されているTODOがある場合
+    if (savedTodos) {
+      // parseされたJSONオブジェクトをjavascriptオブジェクトに戻す
+      return JSON.parse(savedTodos)
+    } else {
+      // 保存されてない場合何もしない
+      return []
+    }
+  })
   // 遂行中ローカルストレージに保存
   useEffect(() => {
     localStorage.setItem('starttodos', JSON.stringify(starttodos))
@@ -106,30 +106,6 @@ const App = () => {
     // 追加後フォームの文字をリセット
     setTask('')
     setSetumei('')
-  }
-
-  // 完了ボタン(削除)
-  const todoDeleteBtton = (index, _uuid) => {
-    Swal.fire({
-      title: 'この任務を完了しますか？',
-      text: '完了するとカードが削除されます',
-      showCancelButton: true,
-      confirmButtonText: '完了する',
-      cancelButtonText: 'キャンセル',
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire({
-          title: '任務完了',
-          text: '偉い！次の任務をこなそう！',
-          icon: 'success',
-          timer: '1500',
-          confirmButtonText: '閉じる',
-        })
-        const removeItem = [...starttodos]
-        removeItem.splice(index, 1)
-        setStartTodos(removeItem)
-      }
-    })
   }
 
   // 削除ボタン
@@ -233,7 +209,7 @@ const App = () => {
       {/* 編集フォームend */}
 
       {/* 遂行中 */}
-      <StartTodo starttodos={starttodos} todoDeleteBtton={todoDeleteBtton} />
+      <StartTodo setStartTodos={setStartTodos} starttodos={starttodos} />
 
       {/* 任務一覧パーツ */}
       <NinmuList

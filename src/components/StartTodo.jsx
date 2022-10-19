@@ -1,7 +1,31 @@
 import React from 'react'
 
 const StartTodo = (props) => {
-  const { starttodos, todoDeleteBtton } = props
+  const { starttodos, setStartTodos } = props
+
+  // 完了ボタン(任務完了)
+  const todoDeleteBtton = (index, _uuid) => {
+    Swal.fire({
+      title: 'この任務を完了しますか？',
+      text: '完了するとカードが削除されます',
+      showCancelButton: true,
+      confirmButtonText: '完了する',
+      cancelButtonText: 'キャンセル',
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          title: '任務完了',
+          text: '偉い！次の任務をこなそう！',
+          icon: 'success',
+          timer: '1500',
+          confirmButtonText: '閉じる',
+        })
+        const removeItem = [...starttodos]
+        removeItem.splice(index, 1)
+        setStartTodos(removeItem)
+      }
+    })
+  }
 
   return (
     <>
